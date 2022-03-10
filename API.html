@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherToday</title>
+    <link rel="stylesheet" href="API2.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Open+Sans:wght@600&family=PT+Serif&family=Roboto:ital,wght@0,300;0,400;1,400;1,500&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Nunito:wght@500&family=Open+Sans:wght@600&family=PT+Serif&family=Roboto:ital,wght@0,300;0,400;1,400;1,500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div id="top">
+        <h1>Weather API</h1>
+    </div>
+    <div id="main">
+
+        <div id="btip">
+            <input type="text" name="" id="CityName" placeholder="Enter the city name">
+            <button onclick="runClick()">Submit</button>
+        </div>
+
+        <br>
+        <div id="image"></div>
+        <div id="content">
+            <div><span id="Location"></span>'s Weather Today</div>
+            <br>
+            <div class="temp">Tempreature : <span id="2"></span>°C</div>
+            <div>Humidity Level : <span id="Humidity"></span></div>
+            <div>Maximum Temp : <span id="temp_Max"></span>°C</div>
+            <div>Minimum Temp : <span id="temp_Min"></span>°C</div>
+        </div>
+
+
+
+    </div>
+    <div id="bot">
+
+    </div>
+
+    <script>
+
+
+
+
+        async function GetInput() {
+            try {
+                let inputValue = document.getElementById("CityName");
+
+                const response = await fetch('https://api.openweathermap.org/data/2.5/weather?q=' + inputValue.value + '&appid=ae542e9b9823c0d3096df2a1104f21ef');
+
+
+                const data = await response.json();
+                let Temperature = data.main.temp;
+                let MaxTemp = data.main.temp_max;
+                let MinTemp = data.main.temp_min;
+                let a = Conversion(Temperature);
+                let b = Conversion(MaxTemp);
+                let c = Conversion(MinTemp);
+
+
+                document.getElementById("2").innerHTML = a.toFixed(2);
+                document.getElementById("Location").innerHTML = data.name;
+                document.getElementById("Humidity").innerHTML = data.main.humidity;
+                document.getElementById("temp_Max").innerHTML = b.toFixed(2);
+                document.getElementById("temp_Min").innerHTML = c.toFixed(2);
+
+            }
+            catch (e) {
+                console.log(e);
+                let Alert = confirm("Please enter a valid City Name");
+            }
+
+
+        }
+        function Conversion(n) {
+            return (n - 32.0) * 5.0 / 9.0;
+        }
+
+        function runClick() {
+            GetInput();
+        }
+
+
+    </script>
+</body>
+
+</html>
